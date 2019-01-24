@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Registro del Usuario</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
+  <link rel="stylesheet" href="/stylesheets/dis.css">
+
+</head>
+<body>
+  <br><br><br>
+
+<h1>Formulario de Registro</h1>
+<form action="/addUser" method="post" class="form-registrer" onsubmit="return validar();">
+
+  <h2 class="form-titulo"> Crear tu Cuenta </h2>
+  <div class="contenedor-inputs">
+
+    <input type="text" id="nombre" name="nombre" placeholder="Nombres" class="input-100" >
+
+    <input type="text" id="apeliidoP" name="apellidoP" placeholder="Apellido Paterno" class="input-48" >
+    <input type="text" id="apeliidoM" name="apellidoM" placeholder="Apellido Materno" class="input-48" >
+    <input type="email" id="email" name="email" placeholder="Correo Electronico" class="input-100" >
+    <!-- <input type="text" id="idUser" name="idUser" placeholder="ID de Usario" class="input-100" required> -->
+    <input type="password" id="clave" name="clave" placeholder="Contraceña" class="input-48" >
+    <input type="password" id="clave2" name="clave2" placeholder="Repita la Contraceña" class="input-48" >
+    <span id="error2"></span>
+    <input type="text" id="celular" name="celular" placeholder="Telefono" class="input-100" >
+    <input type="text" id="direccion" name="direccion" placeholder="Direccion" class="input-100" >
+
+    <input type="submit" value="Registrar Usuario" class="btn-enviar">
+    <p class="form-link">¿Ya tienes una cuneta? <a href=""> Ingresa aqui </a></p>
+
+
+  </div>
+
+</form>
+
+  <!-- <div class="container">
+           <div class="row">
+             <div class="col-md-5">
+               <div class="card">
+                 <div class="card-body">
+
+
+                   <form class="" action="/addUser" method="POST">
+                     <div class="form-group">
+                       <input type="text" name="nombre" placeholder="Nombre" class="form-control">
+
+                     </div>
+
+                     <div class="form-group">
+                       <input type="text" name="apeliido" placeholder="Apellidos" class="form-control">
+
+                     </div>
+
+                     <div class="form-group">
+                       <input type="text" name="email" placeholder="Email" class="form-control">
+
+                     </div>
+
+                     <div class="form-group">
+                       <input type="text" name="direccion" placeholder="Direccion" class="form-control">
+
+                     </div>
+
+                     <div class="form-group">
+                       <input type="text" name="celular" placeholder="Celular" class="form-control">
+
+                     </div>
+
+
+
+                     <button type="submit" class="btn btn-primary btn-block">Registrar <Datos></Datos></button>
+
+                   </form>
+
+                 </div>
+
+               </div>
+
+             </div>
+
+           </div>
+
+         </div> -->
+  <i class="fas fa-ellipsis-v btn-menu"></i>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="/js/validar.js"></script>
+</body>
+</html>

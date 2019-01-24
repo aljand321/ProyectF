@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/dis.css">
+</head>
+<body>
+
+<div class="tableUser">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apeliido Paterno</th>
+        <th scope="col">Apeliido Materno</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contraceña</th>
+        <th scope="col">Celular</th>
+        <th scope="col">Direccion</th>
+        <th scope="col">Operacion</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        <% for(var i=0; i < verU.length; i++) { %>
+        <tr>
+
+          <td scope="row"><%= i + 1 %></td>
+          <td> <%=verU[i].nombre %></td>
+          <td> <%=verU[i].apellidoP %> </td>
+          <td> <%=verU[i].apellidoM %> </td>
+          <td> <%=verU[i].email %> </td>
+          <td> <%=verU[i].clave %> </td>
+          <td> <%=verU[i].celular %> </td>
+          <td> <%=verU[i].direccion %> </td>
+          <td>
+
+            <a href="/turn/<%=verU[i]._id %>" class="btn <%= verU[i].status ? 'btn-success' : 'btn-dark' %>"> Admin </a>
+            <a href="/delUser/<%=verU[i]._id %>" class="btn btn-danger"> Delete </a>
+            <!-- <a href="#" class="btn btn-info"> Edit </a> -->
+
+          </td>
+
+        </tr>
+        <% } %>
+
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>
