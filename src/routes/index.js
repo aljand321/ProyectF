@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fetch = require('node-fetch');
 
 const REgUSER = require('../models/regUser');
 
@@ -13,8 +14,8 @@ router.get('/regUSer', (req, res) => {
 });
 
 //servicio para guardar en REgUSER
-// router.post('/addUser', async (req, res) => {
-//   const reguser = new REgUSER(req.body);
+// router.post('/addUser1', async (req, res) => {
+//   const reguser = new regU(req.body);
 //   await reguser.save();
 //   console.log(reguser);
 //   res.render('regUSer');
@@ -22,37 +23,48 @@ router.get('/regUSer', (req, res) => {
 // });
 //servicio para guardar en REgUSER
 router.post("/addUser", async(req, res) => {
-  const reg_user = {
+  var reg_user = {
     nombre: req.body.nombre,
     apellidoP: req.body.apellidoP,
     apellidoM: req.body.apellidoM,
     email: req.body.email,
     clave: req.body.clave,
+    clave2: req.body.clave2,
     celular: req.body.celular,
-    direccion: req.body.direccion,
-    clave2: req.body.clave2
+    direccion: req.body.direccion
+
   };
-  const user = new REgUSER(reg_user);
+  var user = new REgUSER(reg_user);
   if(reg_user.clave == reg_user.clave2){
     console.log(reg_user.clave2, reg_user.clave);
 
     REgUSER.find({email: req.body.email}).exec( async (err, docs) => {
       console.log(docs);
         if(docs != ""){
-          res.status(500).json({
+          console.log('ya existe ese email')
+          res.status(400).json({
                   "msn" : "ya existe ese email"
                 });
           // res.send("ya existe ese email")
         }
         else{
             await user.save();
-            res.render('regUSer');
+            console.log('enviado');
+            res.status(200).json({
+                    "msn" : "enviado"
+                  });
+            // res.send('se enviaron los datos')
         }
 
     });
   }
   else{
-    res.render('regUSer');
+    console.log('las claves no son iguales');
+    res.status(400).json({
+            "msn" : "claves diferentes"
+          });
+    //res.send('las claves no son iguales');
+    // res.render('regUSer');
   }
 });
 
@@ -81,6 +93,32 @@ router.get('/turn/:id', async (req, res) =>{
   res.redirect('/getUser');
 
 });
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<
+// servicios con fetch
+
+//servicio para guardar en REgUSER
+router.post("/userReg", (req, res) => {
+  var regU = {
+    nombre: req.body.nombre,
+    apellidoP: req.body.apellidoP,
+    apellidoM: req.body.apellidoM,
+    email: req.body.email,
+    clave: req.body.clave,
+    clave2: req.body.clave2,
+    celular: req.body.celular,
+    direccion: req.body.direccion
+  };
+  var userData = new REgUSER(regU);
+  console.log(userData);
+  userData.save().then( () => {
+      res.status(200).json({
+        "msn" : "Registrado con exito"
+      });
+  });
+
+});
+
 
 
 module.exports = router;

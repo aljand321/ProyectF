@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //middlewares
 app.use(morgan('dev'));
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 //routes
