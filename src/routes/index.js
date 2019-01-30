@@ -76,6 +76,12 @@ router.get("/getUser", async(req, res) => {
   });
 });
 
+router.get("/usersGET", (req, res, next) =>{
+  REgUSER.find({}).exec( (error, docs) => {
+      res.status(200).json(docs);
+  })
+});
+
 // servicio para eliminar usuarios
 router.get('/delUser/:id', async (req, res) => {
   const {id} = req.params;
@@ -90,34 +96,12 @@ router.get('/turn/:id', async (req, res) =>{
   const task = await REgUSER.findById(id); // busca el id en la base de datos
   task.status = !task.status;
   await task.save(); // esto guarda donde la vase de datos
-  res.redirect('/getUser');
+  res.status(200).json({
+          "msn" : "se cambio el estado"
+        });
 
 });
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<
-// servicios con fetch
-
-//servicio para guardar en REgUSER
-router.post("/userReg", (req, res) => {
-  var regU = {
-    nombre: req.body.nombre,
-    apellidoP: req.body.apellidoP,
-    apellidoM: req.body.apellidoM,
-    email: req.body.email,
-    clave: req.body.clave,
-    clave2: req.body.clave2,
-    celular: req.body.celular,
-    direccion: req.body.direccion
-  };
-  var userData = new REgUSER(regU);
-  console.log(userData);
-  userData.save().then( () => {
-      res.status(200).json({
-        "msn" : "Registrado con exito"
-      });
-  });
-
-});
 
 
 
