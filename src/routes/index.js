@@ -51,8 +51,8 @@ router.post("/addUser", async(req, res) => {
             await user.save();
             console.log('enviado');
             res.status(200).json({
-                    "msn" : "enviado"
-                  });
+              "msn": "enviado"
+            });
             // res.send('se enviaron los datos')
         }
 
@@ -75,7 +75,7 @@ router.get("/getUser", async(req, res) => {
     verU
   });
 });
-
+//mostrar todos los usuarios en formato json
 router.get("/usersGET", (req, res, next) =>{
   REgUSER.find({}).exec( (error, docs) => {
       res.status(200).json(docs);
@@ -102,7 +102,22 @@ router.get('/turn/:id', async (req, res) =>{
 
 });
 
-
-
+//servicio para login
+router.post('/sessions', function (req, res) {
+  
+  REgUSER.find({email:req.body.email, clave:req.body.clave, },function(err, docs){
+    if(docs != ""){
+      console.log("Hola " + docs[0].nombre + "!");
+      res.status(200).json({
+              "msn" : "Hola " + docs[0].nombre + "!"
+            });
+    }else{
+      console.log("Usted no esta registrado");
+      res.status(400).json({
+              "msn" : "Usted no esta registrado"
+            });
+    }
+  });
+});
 
 module.exports = router;
