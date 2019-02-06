@@ -26,7 +26,6 @@ router.get('/regUSer', (req, res) => {
 router.post("/addUser", async(req, res) => {
   var reg_user = {
     nombre: req.body.nombre,
-
     apellidoP: req.body.apellidoP,
     apellidoM: req.body.apellidoM,
     email: req.body.email,
@@ -50,11 +49,23 @@ router.post("/addUser", async(req, res) => {
           // res.send("ya existe ese email")
         }
         else{
-            await user.save();
-            console.log('enviado');
-            res.status(200).json({
-              "msn": "enviado"
-            });
+            if(reg_user.nombre == ""){
+              res.status(400).json({
+                'msn' : 'Introdusca un nombre'
+              });
+            }else
+            if(reg_user.apellidoP==""){
+              res.status(400).json({
+                'msn' : 'Introdusca su apellido paterno'
+              });
+            }else{
+              await user.save();
+              console.log('enviado');
+              res.status(200).json({
+                "msn": "enviado"
+              });
+            }
+
             // res.send('se enviaron los datos')
         }
 
@@ -88,7 +99,9 @@ router.get("/usersGET", (req, res, next) =>{
 router.get('/delUser/:id', async (req, res) => {
   const {id} = req.params;
   await REgUSER.deleteOne({_id: id});
-  res.redirect('/getUser');
+  res.status(200).json({
+    "msn": "Eliminado"
+  });
 
 });
 
@@ -124,7 +137,17 @@ router.post('/sessions', function (req, res) {
 
 //para reCAPTCHA
 
-router.post('/reCAPTCHA', (req, res) => {
+router.post('/reCAPTCHA', async(req, res) => {
+  var reg_user = {
+    nombre: req.body.nombre,
+    apellidoP: req.body.apellidoP,
+    apellidoM: req.body.apellidoM,
+    email: req.body.email,
+    clave: req.body.clave,
+    clave2: req.body.clave2,
+    celular: req.body.celular,
+    direccion: req.body.direccion
+  };
   if(
     req.body.captcha === undefined ||
     req.body.captcha === '' ||
@@ -147,8 +170,53 @@ router.post('/reCAPTCHA', (req, res) => {
     if(body.success !== undefined && !body.success){
       return res.json({"success": false, "msg":"Failed captcha verification"});
     }
-    //If Successful
-    return res.json({"success": true, "msg":"Captcha passed"});
+
+    var user = new REgUSER(reg_user);
+    if(reg_user.clave == reg_user.clave2){
+      console.log(reg_user.clave2, reg_user.clave);
+
+      REgUSER.find({email: req.body.email}).exec( async (err, docs) => {
+        console.log(docs);
+          if(docs != ""){
+            console.log('ya existe ese email')
+            res.status(400).json({
+                    "msn" : "ya existe ese email"
+                  });
+            // res.send("ya existe ese email")
+          }
+          else{
+              if(reg_user.nombre == ""){
+                res.status(400).json({
+                  'msn' : 'Introdusca un nombre'
+                });
+              }else
+              if(reg_user.apellidoP==""){
+                res.status(400).json({
+                  'msn' : 'Introdusca su apellido paterno'
+                });
+              }else{
+                await user.save();
+                console.log('enviado');
+                res.status(200).json({
+                  "msn": "enviado",
+                  "success": true, "msg":"Captcha passed"
+                });
+              }
+
+              // res.send('se enviaron los datos')
+          }
+
+      });
+    }
+    else{
+      console.log('las claves no son iguales');
+      res.status(400).json({
+              "msn" : "claves diferentes"
+            });
+      //res.send('las claves no son iguales');
+      // res.render('regUSer');
+    }
+    // return res.json({"success": true, "msg":"Captcha passed"});
   });
 
 });
