@@ -2,15 +2,23 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const request = require('request');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 //connecting to db
 mongoose.connect('mongodb://localhost/registro')
  .then(db => console.log('Db connected'))
  .catch(err => console.log('err'));
 
-// imortando rutas
+// importando rutas
 const indexRoutes = require('./routes/index');
 
 

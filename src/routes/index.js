@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const request = require('request');
 
 const REgUSER = require('../models/regUser');
 
@@ -25,6 +26,7 @@ router.get('/regUSer', (req, res) => {
 router.post("/addUser", async(req, res) => {
   var reg_user = {
     nombre: req.body.nombre,
+
     apellidoP: req.body.apellidoP,
     apellidoM: req.body.apellidoM,
     email: req.body.email,
@@ -104,7 +106,7 @@ router.get('/turn/:id', async (req, res) =>{
 
 //servicio para login
 router.post('/sessions', function (req, res) {
-  
+
   REgUSER.find({email:req.body.email, clave:req.body.clave, },function(err, docs){
     if(docs != ""){
       console.log("Hola " + docs[0].nombre + "!");
@@ -118,6 +120,37 @@ router.post('/sessions', function (req, res) {
             });
     }
   });
+});
+
+//para reCAPTCHA
+
+router.post('/reCAPTCHA', (req, res) => {
+  if(
+    req.body.captcha === undefined ||
+    req.body.captcha === '' ||
+    req.body.captcha === null
+  ){
+    return res.json({"success": false, "msg": "Please select captcha"});
+  }
+  // secret key
+  const secretKey = '6LdxcI8UAAAAAJ-RuzN-uXXvvSLGlIoTOYJVQv_B';
+
+  //Verify URL
+  const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
+
+  // Verificando URL
+  request(verifyUrl, (err, response, body) => {
+    body = JSON.parse(body);
+    console.log(body);
+
+    // If Not Successful
+    if(body.success !== undefined && !body.success){
+      return res.json({"success": false, "msg":"Failed captcha verification"});
+    }
+    //If Successful
+    return res.json({"success": true, "msg":"Captcha passed"});
+  });
+
 });
 
 module.exports = router;
