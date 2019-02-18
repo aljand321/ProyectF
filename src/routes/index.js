@@ -185,7 +185,7 @@ router.post('/reCAPTCHA', async(req, res) => {
     req.body.captcha === '' ||
     req.body.captcha === null
   ){
-    return res.json({"success": false, "msg": "Please select captcha"});
+    return res.json({"success": false, "msn": "Please select captcha"});
   }
   // secret key
   const secretKey = '6LdxcI8UAAAAAJ-RuzN-uXXvvSLGlIoTOYJVQv_B';
@@ -200,7 +200,7 @@ router.post('/reCAPTCHA', async(req, res) => {
 
     // If Not Successful
     if(body.success !== undefined && !body.success){
-      return res.json({"success": false, "msg":"Failed captcha verification"});
+      return res.json({"success": false, "msn":"Failed captcha verification"});
     }
 
     var user = new REgUSER(reg_user);
@@ -212,7 +212,7 @@ router.post('/reCAPTCHA', async(req, res) => {
           if(docs != ""){
             console.log('ya existe ese email')
             res.status(400).json({
-                    "msn" : "ya existe ese email"
+                    "msn" : "Ese email ya esta en uso. Prueba con otro"
                   });
             // res.send("ya existe ese email")
           }
@@ -252,7 +252,7 @@ router.post('/reCAPTCHA', async(req, res) => {
                 console.log('enviado');
                 res.status(200).json({
                   "msn": "enviado",
-                  "success": true, "msg":"Captcha passed"
+                  // "msn": true, "msg":"Captcha passed"
                 });
               }
 
@@ -264,7 +264,7 @@ router.post('/reCAPTCHA', async(req, res) => {
     else{
       console.log('las claves no son iguales');
       res.status(400).json({
-              "msn" : "claves diferentes"
+              "msn" : "Las contaceñas no son iguales"
             });
       //res.send('las claves no son iguales');
       // res.render('regUSer');
