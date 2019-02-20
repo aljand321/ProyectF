@@ -39,7 +39,7 @@ router.get("/getP1", async(req, res) => {
 });
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-//servicio para guardar en REgUSER
+//servicio para guardar en task
 router.post('/addUser1', async (req, res) => {
   const task = new TASK(req.body);
   await task.save();
